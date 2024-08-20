@@ -1,19 +1,24 @@
 import React from 'react';
-import Navbar from './Navbar';
 import Footer from './Footer';
-import Sidebar from './Sidebar';
+import HeaderFixed from './HeaderFixed';
+import SidebarMenu from './SidebarMenu';
+import { Outlet } from 'react-router-dom';
 
 const MainLayout = () => {
-  return (
-    <div className="nk-body bg-lighter npc-general has-sidebar">
-   
-      <Sidebar />
-      <div className="main-content">
- 
-      </div>
-      <Footer />
-    </div>
-  );
-}
+    return (
+        <div className="nk-app-root">
+            <div className="nk-main">
+                <SidebarMenu />
+                <div className="nk-wrap">
+                    <HeaderFixed />
+                    <div className="nk-content">
+                        <Outlet />
+                        <Footer />
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
 
 export default MainLayout;

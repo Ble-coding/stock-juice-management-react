@@ -1,8 +1,7 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import MainLayout from './components/MainLayout'; // Assurez-vous d'importer MainLayout correctement
-
+import MainLayout from './components/MainLayout';
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import Dashboard from './pages/Dashboard';

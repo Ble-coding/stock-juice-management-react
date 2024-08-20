@@ -86,7 +86,7 @@
 
     // Init ClipboardJS
     if (ClipboardJS.isSupported()) {
-      var clipboard = new ClipboardJS(clip);
+      var clipboard = new ClipboardJS(clip);  
       clipboard.on('success', function (e) {
         feedback(e.trigger, 'success');
         e.clearSelection();
