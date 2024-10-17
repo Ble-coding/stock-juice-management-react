@@ -10,6 +10,9 @@ import SupplierList from './pages/Supplier/Index';
 import StockList from './pages/Stock/Index';
 import SaleList from './pages/Sale/Index';
 import CustomerList from './pages/Customer/Index';
+import ViewCustomer from './pages/Customer/ViewCustomer';
+import EditCustomer from './pages/Customer/EditCustomer';
+import CreateCustomer from './pages/Customer/CreateCustomer';
 
 function App() {
   return (
@@ -22,6 +25,10 @@ function App() {
           <Route path="stocks" element={<StockList />} />
           <Route path="sales" element={<SaleList />} />
           <Route path="customers" element={<CustomerList />} />
+          <Route path="/customers/:id" element={<ViewCustomer />} />
+          <Route path="/customers/edit/:id" element={<EditCustomer />} />
+          <Route path="/customers/create" element={<CreateCustomer />} />
+
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
