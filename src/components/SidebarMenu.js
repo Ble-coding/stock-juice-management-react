@@ -1,6 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import logoLight from '../images/logo.png'; // Chemin vers votre image
+import logoLight2x from '../images/logo2x.png';
+import logoDark from '../images/logo-dark.png';
+import logoDark2x from '../images/logo-dark2x.png';
+
+
 function SidebarMenu() {
   return (
     <div className="nk-sidebar nk-sidebar-fixed is-dark " data-content="sidebarMenu">
@@ -11,8 +17,8 @@ function SidebarMenu() {
             </div>
             <div className="nk-sidebar-brand">
                 <a href="html/index.html" className="logo-link nk-sidebar-logo">
-                    <img className="logo-light logo-img" src="./images/logo.png" srcSet="./images/logo2x.png 2x" alt="logo" />
-                    <img className="logo-dark logo-img" src="./images/logo-dark.png" srcSet="./images/logo-dark2x.png 2x" alt="logo-dark" />
+                <img className="logo-light logo-img" src={logoLight} srcSet={`${logoLight2x} 2x`} alt="logo" />
+                <img className="logo-dark logo-img" src={logoDark} srcSet={`${logoDark2x} 2x`} alt="logo-dark" />
                 </a>
             </div>
         </div>

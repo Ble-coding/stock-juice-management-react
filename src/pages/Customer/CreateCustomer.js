@@ -14,15 +14,57 @@ const CreateCustomer = () => {
     registered_at: new Date().toISOString().split('T')[0], // Date actuelle par défaut
   });
 
+  const [errors, setErrors] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+  });
+
   // Gérer les changements dans le formulaire
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCustomer({ ...customer, [name]: value });
+
+    // Réinitialiser l'erreur lorsque l'utilisateur tape
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: '' });
+    }
+  };
+
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = {};
+
+    if (!customer.name) {
+      newErrors.name = 'Le nom est requis';
+      isValid = false;
+    }
+    if (!customer.email) {
+      newErrors.email = 'L\'email est requis';
+      isValid = false;
+    }
+    if (!customer.phone) {
+      newErrors.phone = 'Le téléphone est requis';
+      isValid = false;
+    }
+    if (!customer.address) {
+      newErrors.address = 'L\'adresse est requise';
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
   };
 
   // Gérer la soumission du formulaire pour créer un nouveau client
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      toast.error('Veuillez corriger les erreurs dans le formulaire');
+      return;
+    }
 
     try {
       const response = await fetch('http://localhost:8000/api/customers', {
@@ -78,52 +120,52 @@ const CreateCustomer = () => {
               <label className="form-label" htmlFor="name">Nom</label>
               <input
                 type="text"
-                className="form-control"
+                className={`form-control ${errors.name ? 'error' : ''}`} // Classe d'erreur conditionnelle
                 id="name"
                 name="name"
                 value={customer.name}
                 onChange={handleChange}
                 placeholder="Entrez le nom du client"
-                required
               />
+              {errors.name && <div className="error-message">{errors.name}</div>} {/* Message d'erreur */}
             </div>
             <div className="form-group">
               <label className="form-label" htmlFor="email">Email</label>
               <input
                 type="email"
-                className="form-control"
+                className={`form-control ${errors.email ? 'error' : ''}`} // Classe d'erreur conditionnelle
                 id="email"
                 name="email"
                 value={customer.email}
                 onChange={handleChange}
                 placeholder="Entrez l'email du client"
-                required
               />
+              {errors.email && <div className="error-message">{errors.email}</div>} {/* Message d'erreur */}
             </div>
             <div className="form-group">
               <label className="form-label" htmlFor="phone">Téléphone</label>
               <input
                 type="text"
-                className="form-control"
+                className={`form-control ${errors.phone ? 'error' : ''}`} // Classe d'erreur conditionnelle
                 id="phone"
                 name="phone"
                 value={customer.phone}
                 onChange={handleChange}
                 placeholder="Entrez le téléphone du client"
-                required
               />
+              {errors.phone && <div className="error-message">{errors.phone}</div>} {/* Message d'erreur */}
             </div>
             <div className="form-group">
               <label className="form-label" htmlFor="address">Adresse</label>
               <textarea
-                className="form-control"
+                className={`form-control ${errors.address ? 'error' : ''}`} // Classe d'erreur conditionnelle
                 id="address"
                 name="address"
                 value={customer.address}
                 onChange={handleChange}
                 placeholder="Entrez l'adresse du client"
-                required
               />
+              {errors.address && <div className="error-message">{errors.address}</div>} {/* Message d'erreur */}
             </div>
             <div className="form-group">
               <label className="form-label" htmlFor="kyc_status">Statut KYC</label>
@@ -148,7 +190,6 @@ const CreateCustomer = () => {
                 name="registered_at"
                 value={customer.registered_at}
                 onChange={handleChange}
-                required
               />
             </div>
             <button type="submit" className="btn btn-primary">Créer le Client</button>

@@ -13,6 +13,7 @@ import CustomerList from './pages/Customer/Index';
 import ViewCustomer from './pages/Customer/ViewCustomer';
 import EditCustomer from './pages/Customer/EditCustomer';
 import CreateCustomer from './pages/Customer/CreateCustomer';
+import NotFound from './components/NotFound';
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
           <Route path="/customers/:id" element={<ViewCustomer />} />
           <Route path="/customers/edit/:id" element={<EditCustomer />} />
           <Route path="/customers/create" element={<CreateCustomer />} />
-
+          <Route path="*" element={<NotFound />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

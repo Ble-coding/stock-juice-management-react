@@ -1,5 +1,15 @@
 import React from 'react';
 
+import logoLight from '../images/logo.png'; // Chemin vers votre image
+import logoLight2x from '../images/logo2x.png';
+import logoDark from '../images/logo-dark.png';
+import logoDark2x from '../images/logo-dark2x.png';
+import englishFlag from '../images/flags/english.png';
+import spanishFlag from '../images/flags/spanish.png';
+import frenchFlag from '../images/flags/french.png';
+import turkeyFlag from '../images/flags/turkey.png';
+import englishSquareFlag from '../images/flags/english-sq.png';
+
 const HeaderFixed = () => {
     return (
         <div className="nk-header nk-header-fixed is-light">
@@ -10,8 +20,8 @@ const HeaderFixed = () => {
                     </div>
                     <div className="nk-header-brand d-xl-none">
                         <a href="html/index.html" className="logo-link">
-                            <img className="logo-light logo-img" src="./images/logo.png" srcset="./images/logo2x.png 2x" alt="logo"/>
-                            <img className="logo-dark logo-img" src="./images/logo-dark.png" srcset="./images/logo-dark2x.png 2x" alt="logo-dark"/>
+                        <img className="logo-light logo-img" src={logoLight} srcSet={`${logoLight2x} 2x`} alt="logo" />
+                        <img className="logo-dark logo-img" src={logoDark} srcSet={`${logoDark2x} 2x`} alt="logo-dark" />
                         </a>
                     </div>
                     <div className="nk-header-news d-none d-xl-block">
@@ -29,41 +39,41 @@ const HeaderFixed = () => {
                     </div>
                     <div className="nk-header-tools">
                         <ul className="nk-quick-nav">
-                            <li className="dropdown language-dropdown d-none d-sm-block me-n1">
-                                <a href="#" className="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
-                                    <div className="quick-icon border border-light">
-                                        <img className="icon" src="./images/flags/english-sq.png" alt=""/>
-                                    </div>
-                                </a>
-                                <div className="dropdown-menu dropdown-menu-end dropdown-menu-s1">
-                                    <ul className="language-list">
-                                        <li>
-                                            <a href="#" className="language-item">
-                                                <img src="./images/flags/english.png" alt="" className="language-flag"/>
-                                                <span className="language-name">English</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" className="language-item">
-                                                <img src="./images/flags/spanish.png" alt="" className="language-flag"/>
-                                                <span className="language-name">Español</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" className="language-item">
-                                                <img src="./images/flags/french.png" alt="" className="language-flag"/>
-                                                <span className="language-name">Français</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" className="language-item">
-                                                <img src="./images/flags/turkey.png" alt="" className="language-flag"/>
-                                                <span className="language-name">Türkçe</span>
-                                            </a>
-                                        </li>
-                                    </ul>
+                        <li className="dropdown language-dropdown d-none d-sm-block me-n1">
+                            <a href="#" className="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
+                                <div className="quick-icon border border-light">
+                                    <img className="icon" src={englishSquareFlag} alt=""/>
                                 </div>
-                            </li>
+                            </a>
+                            <div className="dropdown-menu dropdown-menu-end dropdown-menu-s1">
+                                <ul className="language-list">
+                                    <li>
+                                        <a href="#" className="language-item">
+                                            <img src={englishFlag} alt="" className="language-flag"/>
+                                            <span className="language-name">English</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" className="language-item">
+                                            <img src={spanishFlag} alt="" className="language-flag"/>
+                                            <span className="language-name">Español</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" className="language-item">
+                                            <img src={frenchFlag} alt="" className="language-flag"/>
+                                            <span className="language-name">Français</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" className="language-item">
+                                            <img src={turkeyFlag} alt="" className="language-flag"/>
+                                            <span className="language-name">Türkçe</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
                             <li className="dropdown user-dropdown">
                                 <a href="#" className="dropdown-toggle" data-bs-toggle="dropdown">
                                     <div className="user-toggle">
