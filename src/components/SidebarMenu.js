@@ -118,7 +118,9 @@ function SidebarMenu() {
                                     <Link to="customers" className="nk-menu-link"><span className="nk-menu-text">Liste</span></Link>
                                 </li>
                                 <li className="nk-menu-item">
-                                    <a href="html/customer-details.html" className="nk-menu-link"><span className="nk-menu-text">Details</span></a>
+                                <Link to="/customers/create" className="nk-menu-link">
+                                     <span className="nk-menu-text">Créer un client</span>
+                                </Link>
                                 </li>
                             </ul>
                         </li>
@@ -190,17 +192,23 @@ function SidebarMenu() {
                                 </li>
                             </ul>
                         </li>
+                        {/* <li className="nk-menu-item">
+                            <Link to="products" className="nk-menu-link">
+                                <span className="nk-menu-icon"><em className="icon ni ni-card-view"></em></span>
+                                <span className="nk-menu-text">Produits</span>
+                            </Link>
+                        </li> */}
                         <li className="nk-menu-item has-sub">
                             <a href="#" className="nk-menu-link nk-menu-toggle">
                                 <span className="nk-menu-icon"><em className="icon ni ni-card-view"></em></span>
-                                <span className="nk-menu-text">Products</span>
+                                <span className="nk-menu-text">Produits</span>
                             </a>
                             <ul className="nk-menu-sub">
                                 <li className="nk-menu-item">
-                                    <a href="html/product-list.html" className="nk-menu-link"><span className="nk-menu-text">Product List</span></a>
+                                    <Link to="categories" className="nk-menu-link"><span className="nk-menu-text">Catégories</span></Link>
                                 </li>
                                 <li className="nk-menu-item">
-                                    <a href="html/product-card.html" className="nk-menu-link"><span className="nk-menu-text">Product Card</span></a>
+                                    <Link to="products" className="nk-menu-link"><span className="nk-menu-text">Produits</span></Link>
                                 </li>
                                 <li className="nk-menu-item">
                                     <a href="html/product-details.html" className="nk-menu-link"><span className="nk-menu-text">Product Details</span></a>

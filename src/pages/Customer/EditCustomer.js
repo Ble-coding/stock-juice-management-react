@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from 'react-router-dom';
 
 const EditCustomer = () => {
   const { id } = useParams(); // Récupérer l'ID du client à partir de l'URL
@@ -125,12 +126,12 @@ const EditCustomer = () => {
             </div>
           </div>
           <div className="nk-block-head-content">
-            <a href="/customers" className="btn btn-outline-light bg-white d-none d-sm-inline-flex">
+            <Link to="/customers" className="btn btn-outline-light bg-white d-none d-sm-inline-flex">
               <em className="icon ni ni-arrow-left"></em><span>Retour</span>
-            </a>
-            <a href="/customers" className="btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none">
+            </Link>
+            <Link to="/customers" className="btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none">
               <em className="icon ni ni-arrow-left"></em>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

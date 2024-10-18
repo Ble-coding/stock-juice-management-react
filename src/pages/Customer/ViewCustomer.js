@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import avatarImage from '../../images/avatar/b-sm.jpg'; // Ajuster le chemin de l'image selon ton projet
+import { Link } from 'react-router-dom';
 
 const ViewCustomer = () => {
   const { id } = useParams(); // Récupère l'ID du client à partir de l'URL
@@ -46,12 +47,12 @@ const ViewCustomer = () => {
                   </div>
                 </div>
                 <div className="nk-block-head-content">
-                  <a href="/customers" className="btn btn-outline-light bg-white d-none d-sm-inline-flex">
+                  <Link to="/customers" className="btn btn-outline-light bg-white d-none d-sm-inline-flex">
                     <em className="icon ni ni-arrow-left"></em><span>Back</span>
-                  </a>
-                  <a href="/customers" className="btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none">
+                  </Link>
+                  <Link to="/customers" className="btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none">
                     <em className="icon ni ni-arrow-left"></em>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

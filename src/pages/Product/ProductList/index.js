@@ -5,7 +5,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import CustomerTable from './CustomerTable';
 import CustomerModal from './CustomerModal';
 import SuspendModal from './SuspendModal';
-import { Link } from 'react-router-dom';
 
 const CustomerList = () => {
   const [customers, setCustomers] = useState([]);
@@ -177,9 +176,9 @@ const CustomerList = () => {
                   </div>
                 </div>
                 <div className="nk-block-head-content">
-                <Link to="/customers/create" className="btn btn-primary">
+                <a href="/customers/create" className="btn btn-primary">
                     <em className="icon ni ni-plus"></em><span>Créer un Client</span>
-                </Link>
+                </a>
                 </div>
               </div>
         </div>

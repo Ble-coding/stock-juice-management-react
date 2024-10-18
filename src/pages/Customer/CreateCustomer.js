@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from 'react-router-dom';
 
 const CreateCustomer = () => {
   const navigate = useNavigate();
@@ -102,12 +103,12 @@ const CreateCustomer = () => {
             </div>
           </div>
           <div className="nk-block-head-content">
-            <a href="/customers" className="btn btn-outline-light bg-white d-none d-sm-inline-flex">
+            <Link to="/customers" className="btn btn-outline-light bg-white d-none d-sm-inline-flex">
               <em className="icon ni ni-arrow-left"></em><span>Retour</span>
-            </a>
-            <a href="/customers" className="btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none">
+            </Link>
+            <Link to="/customers" className="btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none">
               <em className="icon ni ni-arrow-left"></em>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
