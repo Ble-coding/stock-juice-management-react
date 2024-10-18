@@ -1,13 +1,26 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Link } from 'react-router-dom';
+
+const defaultToken = 'ABCDef1345'; // Ajout du token par défaut
 
 const CreateCategories = () => {
   const navigate = useNavigate();
   const [categories, setCategories] = useState([{ name: '', description: '' }]);
   const [errors, setErrors] = useState({});
+  const [token, setToken] = useState(defaultToken); // État pour stocker le token
+
+  useEffect(() => {
+    // Récupérer le token depuis sessionStorage ou utiliser le token par défaut
+    const storedToken = sessionStorage.getItem('token') || defaultToken;
+
+    if (!storedToken) {
+      navigate('/login'); // Redirige vers la page de connexion si aucun token
+    } else {
+      setToken(storedToken); // Met à jour l'état du token si disponible
+    }
+  }, [navigate]); // Dépendance à navigate pour éviter les erreurs
 
   const handleChange = (index, e) => {
     const { name, value } = e.target;
@@ -62,6 +75,7 @@ const CreateCategories = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`, // Utiliser le token récupéré
         },
         body: JSON.stringify({ categories }), // Envoyer le tableau de catégories
       });

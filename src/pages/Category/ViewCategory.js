@@ -1,28 +1,50 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 
 const ViewCategory = () => {
   const { id } = useParams(); // Récupérer l'ID de la catégorie à partir de l'URL
   const [category, setCategory] = useState(null); // État pour stocker les données de la catégorie
   const [loading, setLoading] = useState(true); // Pour gérer le chargement
+  const [token, setToken] = useState(''); // État pour stocker le token
+  const navigate = useNavigate(); // Hook pour la navigation
+
+  const defaultToken = 'ABCDef1345'; // Token par défaut
 
   useEffect(() => {
-    // Fonction pour récupérer les données de la catégorie via API
-    const fetchCategory = async () => {
-      try {  
-        const response = await fetch(`http://localhost:8000/api/categories/${id}`); // Remplacer par l'URL correcte de ton API
-        const data = await response.json();
-        setCategory(data); // Met à jour l'état avec les données de la catégorie
-        setLoading(false); // Indiquer que le chargement est terminé
-      } catch (error) {
-        console.error("Erreur lors de la récupération des données de la catégorie:", error);
-        setLoading(false); // Même en cas d'erreur, stopper le chargement
-      }
-    };
+    // Récupérer le token et rediriger si nécessaire
+    const savedToken = sessionStorage.getItem('token') || defaultToken;
 
-    fetchCategory();
-  }, [id]);
+    if (!savedToken) {
+      navigate('/login'); // Redirige vers la page de connexion si aucun token
+    } else {
+      setToken(savedToken); // Met à jour l'état du token si disponible
+      fetchCategory(savedToken); // Charger la catégorie si le token est valide
+    }
+  }, [navigate]);
+
+  // Fonction pour récupérer les données de la catégorie via API
+  const fetchCategory = async (authToken) => {
+    try {
+      const response = await fetch(`http://localhost:8000/api/categories/${id}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${authToken}`, // Ajouter le token d'authentification
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error('Network response was not ok'); // Vérifie si la réponse est correcte
+      }
+      
+      const data = await response.json();
+      setCategory(data); // Met à jour l'état avec les données de la catégorie
+      setLoading(false); // Indiquer que le chargement est terminé
+    } catch (error) {
+      console.error("Erreur lors de la récupération des données de la catégorie:", error);
+      setLoading(false); // Même en cas d'erreur, stopper le chargement
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>; // Indicateur de chargement
@@ -132,9 +154,6 @@ const ViewCategory = () => {
                   </div>
                 </div>
               </div>
-          
-
-          
             </div>
 
           </div>

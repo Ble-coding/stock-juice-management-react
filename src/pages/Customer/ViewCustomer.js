@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import avatarImage from '../../images/avatar/b-sm.jpg'; // Ajuster le chemin de l'image selon ton projet
 import { Link } from 'react-router-dom';
 
@@ -7,12 +7,35 @@ const ViewCustomer = () => {
   const { id } = useParams(); // Récupère l'ID du client à partir de l'URL
   const [customer, setCustomer] = useState(null); // État pour stocker les données du client
   const [loading, setLoading] = useState(true); // Pour gérer le chargement
+  const defaultToken = 'ABCDef1345'; // Token par défaut
+  const [token, setToken] = useState(defaultToken); // État pour stocker le token
+  const navigate = useNavigate(); // Utiliser pour la redirection
+
+  useEffect(() => {
+    // Vérifier si le token est présent
+    const storedToken = sessionStorage.getItem('token') || defaultToken;
+
+    if (!storedToken) {
+      navigate('/login'); // Redirige vers la page de connexion si aucun token
+    } else {
+      setToken(storedToken); // Met à jour l'état du token si disponible
+    }
+  }, [navigate]);
 
   useEffect(() => {
     // Fonction pour récupérer les données du client via API
     const fetchCustomer = async () => {
-      try {  
-        const response = await fetch(`http://localhost:8000/api/customers/${id}`); // Remplace par l'URL correcte de ton API
+      try {
+        const response = await fetch(`http://localhost:8000/api/customers/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}` // Ajout de l'en-tête d'autorisation avec le token
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Erreur lors de la récupération des données'); // Gérer l'erreur si la réponse n'est pas correcte
+        }
+
         const data = await response.json();
         setCustomer(data); // Met à jour l'état avec les données du client
         setLoading(false); // Indiquer que le chargement est terminé
@@ -23,7 +46,7 @@ const ViewCustomer = () => {
     };
 
     fetchCustomer();
-  }, [id]);
+  }, [id, token]); // Ajout du token comme dépendance
 
   if (loading) {
     return <div>Loading...</div>; // Indicateur de chargement
@@ -163,41 +186,14 @@ const ViewCustomer = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="nk-block">
-                        <h6 className="lead-text mb-3">Payment Methods</h6>
-                        <div className="row g-3">
-                          <div className="col-xl-12 col-xxl-6">
-                            <div className="card card-bordered">
-                              <div className="card-inner">
-                                <div className="d-flex align-items-center justify-content-between">
-                                  <div className="d-flex align-items-center">
-                                    <div className="icon-circle icon-circle-lg">
-                                      <em className="icon ni ni-visa"></em>
-                                    </div>
-                                    <div className="ms-3">
-                                      <h6 className="lead-text">Visa Card <span className="text-soft ml-1">**** 1955</span></h6>
-                                      <span className="sub-text">Expires Nov 2023</span>
-                                    </div>
-                                  </div>
-                                  <ul className="btn-toolbar justify-center gx-1 me-n1 flex-nowrap">
-                                    <li><a href="#" className="btn btn-trigger btn-icon"><em className="icon ni ni-edit"></em></a></li>
-                                    <li><a href="#" className="btn btn-trigger btn-icon"><em className="icon ni ni-trash"></em></a></li>
-                                  </ul>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                      <div className="nk-block text-center mt-3">
+                        <Link to="/customers" className="btn btn-lg btn-primary">View All Orders</Link>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-          
-
-          
             </div>
-
           </div>
         </div>
       </div>

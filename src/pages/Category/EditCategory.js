@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Link } from 'react-router-dom';
 
 const EditCategory = () => {
   const { id } = useParams(); // Récupérer l'ID de la catégorie à partir de l'URL
   const navigate = useNavigate();
+  
+  // État pour le token
+  const [token, setToken] = useState(''); 
   const [category, setCategory] = useState({
     name: '',
     description: '',
@@ -18,11 +20,28 @@ const EditCategory = () => {
     description: '',
   });
 
+  const defaultToken = 'ABCDef1345'; // Token par défaut
+
+  // Gérer le token et la redirection
+  useEffect(() => {
+    const storedToken = sessionStorage.getItem('token') || defaultToken;
+
+    if (!storedToken) {
+      navigate('/login'); // Redirige vers la page de connexion si aucun token
+    } else {
+      setToken(storedToken); // Met à jour l'état du token si disponible
+    }
+  }, [navigate]);
+
   // Charger les données de la catégorie existante
   useEffect(() => {
     const fetchCategory = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/api/categories/${id}`); // Utiliser l'URL correcte
+        const response = await fetch(`http://localhost:8000/api/categories/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`, // Utilisez le token ici pour l'authentification
+          },
+        });
         if (!response.ok) {
           throw new Error('Catégorie non trouvée');
         }
@@ -35,8 +54,10 @@ const EditCategory = () => {
       }
     };
 
-    fetchCategory();
-  }, [id]);
+    if (token) {
+      fetchCategory(); // Appeler la fonction fetchCategory uniquement si le token est disponible
+    }
+  }, [id, token]); // Dépendances: id et token
 
   // Gérer les changements dans le formulaire
   const handleChange = (e) => {
@@ -67,70 +88,38 @@ const EditCategory = () => {
   };
 
   // Gérer la soumission du formulaire
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   if (!validateForm()) {
-  //     toast.error('Veuillez corriger les erreurs dans le formulaire');
-  //     return;
-  //   }
-
-  //   try {
-  //     const response = await fetch(`http://localhost:8000/api/categories/${id}`, { // Assurez-vous que l'URL est correcte
-  //       method: 'PUT',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Authorization': `Bearer ${sessionStorage.getItem('token')}`, // Ajoutez le token ici si nécessaire
-  //       },
-  //       body: JSON.stringify(category), // Envoyer les données mises à jour
-  //     });
-
-  //     if (response.ok) {
-  //       toast.success('Catégorie mise à jour avec succès!'); // Notification de succès
-  //       setTimeout(() => {
-  //         navigate(`/categories/${id}`); // Rediriger après un court délai
-  //       }, 2000);
-  //     } else {
-  //       toast.error('Échec de la mise à jour de la catégorie'); // Notification d'échec
-  //     }
-  //   } catch (error) {
-  //     console.error('Erreur lors de la mise à jour de la catégorie:', error);
-  //     toast.error('Échec de la mise à jour de la catégorie');
-  //   }
-  // };
-
   const handleSubmit = async (e) => {
-      e.preventDefault();
+    e.preventDefault();
 
-      if (!validateForm()) {
-        toast.error('Veuillez corriger les erreurs dans le formulaire');
-        return;
+    if (!validateForm()) {
+      toast.error('Veuillez corriger les erreurs dans le formulaire');
+      return;
+    }
+
+    try {
+      // Utilisez l'URL correcte pour la mise à jour
+      const response = await fetch(`http://localhost:8000/api/categories/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`, // Ajoutez le token ici pour l'authentification
+        },
+        body: JSON.stringify(category), // Envoyer les données mises à jour
+      });
+
+      if (response.ok) {
+        toast.success('Catégorie mise à jour avec succès!'); // Notification de succès
+        setTimeout(() => {
+          navigate(`/categories/${id}`); // Rediriger après un court délai
+        }, 2000);
+      } else {
+        toast.error('Échec de la mise à jour de la catégorie'); // Notification d'échec
       }
-
-      try {
-        // Utilisez l'URL correcte pour la mise à jour
-        const response = await fetch(`http://localhost:8000/api/categories/${id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(category), // Envoyer les données mises à jour
-        });
-
-        if (response.ok) {
-          toast.success('Catégorie mise à jour avec succès!'); // Notification de succès
-          setTimeout(() => {
-            navigate(`/categories/${id}`); // Rediriger après un court délai
-          }, 2000);
-        } else {
-          toast.error('Échec de la mise à jour de la catégorie'); // Notification d'échec
-        }
-      } catch (error) {
-        console.error('Erreur lors de la mise à jour de la catégorie:', error);
-        toast.error('Échec de la mise à jour de la catégorie');
-      }
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour de la catégorie:', error);
+      toast.error('Échec de la mise à jour de la catégorie');
+    }
   };
-
 
   if (loading) {
     return <div>Loading...</div>;
@@ -161,7 +150,7 @@ const EditCategory = () => {
 
       <div className="card card-bordered card-preview">
         <div className="card-inner">
-          <h4 className="nk-block-title">Modifier la Catégorie</h4>
+          {/* <h4 className="nk-block-title">Modifier la Catégorie</h4> */}
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label className="form-label" htmlFor="name">Nom</label>

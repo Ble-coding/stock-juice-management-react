@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,8 +11,8 @@ const CreateCustomer = () => {
     email: '',
     phone: '',
     address: '',
-    kyc_status: 'pending', // Valeur par défaut
-    registered_at: new Date().toISOString().split('T')[0], // Date actuelle par défaut
+    kyc_status: 'pending',
+    registered_at: new Date().toISOString().split('T')[0],
   });
 
   const [errors, setErrors] = useState({
@@ -21,6 +21,20 @@ const CreateCustomer = () => {
     phone: '',
     address: '',
   });
+
+  const defaultToken = 'ABCDef1345'; // Token par défaut
+  const [token, setToken] = useState(defaultToken); // État pour stocker le token
+
+  useEffect(() => {
+    // Récupérer le token depuis sessionStorage ou utiliser le token par défaut
+    const storedToken = sessionStorage.getItem('token') || defaultToken;
+
+    if (!storedToken) {
+      navigate('/login'); // Redirige vers la page de connexion si aucun token
+    } else {
+      setToken(storedToken); // Met à jour l'état du token si disponible
+    }
+  }, [navigate]); // Dépendance à navigate pour éviter les erreurs
 
   // Gérer les changements dans le formulaire
   const handleChange = (e) => {
@@ -72,8 +86,9 @@ const CreateCustomer = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`, // Ajouter le token dans les headers
         },
-        body: JSON.stringify(customer), // Envoyer les données du nouveau client
+        body: JSON.stringify(customer),
       });
 
       if (response.ok) {

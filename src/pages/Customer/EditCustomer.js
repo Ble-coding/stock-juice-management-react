@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Link } from 'react-router-dom';
 
 const EditCustomer = () => {
   const { id } = useParams(); // Récupérer l'ID du client à partir de l'URL
@@ -24,22 +23,49 @@ const EditCustomer = () => {
     address: '',
   });
 
+  // Récupérer le token d'authentification
+  const defaultToken = 'ABCDef1345'; // Token par défaut
+  const [token, setToken] = useState(defaultToken); // État pour stocker le token
+
+  // Vérifier si le token est présent
+  useEffect(() => {
+    // Récupérer le token depuis sessionStorage ou utiliser le token par défaut
+    const storedToken = sessionStorage.getItem('token') || defaultToken;
+
+    if (!storedToken) {
+      navigate('/login'); // Redirige vers la page de connexion si aucun token
+    } else {
+      setToken(storedToken); // Met à jour l'état du token si disponible
+    }
+  }, [navigate]);
+
   // Charger les données du client existant
   useEffect(() => {
     const fetchCustomer = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/api/customers/${id}`);
+        const response = await fetch(`http://localhost:8000/api/customers/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`, // Inclure le token dans l'en-tête
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Erreur lors de la récupération des données du client');
+        }
         const data = await response.json();
-        setCustomer(data); // Charger les données dans le formulaire
+        setCustomer({
+          ...data,
+          registered_at: new Date(data.registered_at).toISOString().split('T')[0] // Format de la date
+        }); // Charger les données dans le formulaire
         setLoading(false);
       } catch (error) {
         console.error('Erreur lors de la récupération des données du client:', error);
+        toast.error('Erreur lors de la récupération des données du client'); // Notification d'erreur
         setLoading(false);
       }
     };
 
     fetchCustomer();
-  }, [id]);
+  }, [id, token]);
 
   // Gérer les changements dans le formulaire
   const handleChange = (e) => {
@@ -91,6 +117,7 @@ const EditCustomer = () => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`, // Inclure le token dans l'en-tête
         },
         body: JSON.stringify(customer), // Envoyer les données mises à jour
       });
@@ -200,23 +227,24 @@ const EditCustomer = () => {
                 value={customer.kyc_status}
                 onChange={handleChange}
               >
-                <option value="pending">En attente</option>
-                <option value="approved">Approuvé</option>
-                <option value="rejected">Rejeté</option>
+                <option value="not_verified">Non Vérifié</option>
+                <option value="verified">Vérifié</option>
               </select>
             </div>
             <div className="form-group">
-              <label className="form-label" htmlFor="registered_at">Date d'enregistrement</label>
+              <label className="form-label" htmlFor="registered_at">Date d'Inscription</label>
               <input
                 type="date"
                 className="form-control"
                 id="registered_at"
                 name="registered_at"
-                value={customer.registered_at ? new Date(customer.registered_at).toISOString().split('T')[0] : ''}
+                value={customer.registered_at}
                 onChange={handleChange}
               />
             </div>
-            <button type="submit" className="btn btn-primary">Mettre à jour le Client</button>
+            <div className="form-group">
+              <button type="submit" className="btn btn-primary">Mettre à Jour</button>
+            </div>
           </form>
         </div>
       </div>
