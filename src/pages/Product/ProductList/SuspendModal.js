@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SuspendModal = ({ customerToRestore, handleRestore }) => {
+const SuspendModal = ({ productToRestore, handleRestore }) => {
   return (
     <div className="modal fade" tabIndex="-1" id="modalAlert3">
     <div className="modal-dialog" role="document">
@@ -11,7 +11,7 @@ const SuspendModal = ({ customerToRestore, handleRestore }) => {
             <h4 className="nk-modal-title">Are You Sure?</h4>
             <div className="nk-modal-text">
             <div className="caption-text">
-                Are you sure you want to restore this record of l'ID <strong>{customerToRestore}</strong>? This action cannot be undone.
+                Are you sure you want to restore this record of l'ID <strong>{productToRestore}</strong>? This action cannot be undone.
             </div>
             </div>
             <div className="nk-modal-action mt-5 d-flex justify-content-between">

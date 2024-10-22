@@ -208,6 +208,9 @@ function SidebarMenu() {
                                     <Link to="categories" className="nk-menu-link"><span className="nk-menu-text">Catégories</span></Link>
                                 </li>
                                 <li className="nk-menu-item">
+                                    <Link to="tags" className="nk-menu-link"><span className="nk-menu-text">Tags</span></Link>
+                                </li>
+                                <li className="nk-menu-item">
                                     <Link to="products" className="nk-menu-link"><span className="nk-menu-text">Produits</span></Link>
                                 </li>
                                 <li className="nk-menu-item">

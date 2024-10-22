@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CustomerModal = ({ customerToDelete, handleDelete }) => {
+const ProductrModal = ({ productToDelete, handleDelete }) => {
   return (
     <div className="modal fade" tabIndex="-1" id="modalAlert2">
     <div className="modal-dialog" role="document">
@@ -11,7 +11,7 @@ const CustomerModal = ({ customerToDelete, handleDelete }) => {
             <h4 className="nk-modal-title">Are You Sure?</h4>
             <div className="nk-modal-text">
             <div className="caption-text">
-                Are you sure you want to delete this record of l'ID <strong>{customerToDelete}</strong>? This action cannot be undone.
+                Are you sure you want to delete this record of l'ID <strong>{productToDelete}</strong>? This action cannot be undone.
             </div>
             </div>
             <div className="nk-modal-action mt-5 d-flex justify-content-between">
@@ -47,4 +47,4 @@ const CustomerModal = ({ customerToDelete, handleDelete }) => {
   );
 };
 
-export default CustomerModal;
+export default ProductrModal;

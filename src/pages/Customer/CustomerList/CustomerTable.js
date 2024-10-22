@@ -140,7 +140,7 @@ const CustomerTable = ({ customers, openDeleteModal,openRestoreModal }) => {
                 </td>
                   <td className="nk-tb-col nk-tb-col-tools">
                     <ul className="nk-tb-actions gx-1">
-                    <li className="nk-tb-action-hidden">
+                          <li className="nk-tb-action-hidden">
                             <a href="#" className="btn btn-trigger btn-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Wallet">
                               <em className="icon ni ni-wallet-fill"></em>
                             </a>

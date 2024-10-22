@@ -1,10 +1,10 @@
 import React from 'react';
-import ProductList from './ProductList/';
+import TagList from './TagList/';
 
 const Index = () => {
   return (
     <div>
-      <ProductList />
+      <TagList />
     </div>
   );
 };

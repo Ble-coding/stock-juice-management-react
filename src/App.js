@@ -10,6 +10,7 @@ import SupplierList from './pages/Supplier/Index';
 import StockList from './pages/Stock/Index';
 import SaleList from './pages/Sale/Index';
 import CategoryList from './pages/Category/Index';
+import TagList from './pages/Tag/Index';
 import CustomerList from './pages/Customer/Index';
 import ViewCustomer from './pages/Customer/ViewCustomer';
 import EditCustomer from './pages/Customer/EditCustomer';
@@ -17,6 +18,10 @@ import CreateCustomer from './pages/Customer/CreateCustomer';
 import ViewCategory from './pages/Category/ViewCategory';
 import EditCategory from './pages/Category/EditCategory';
 import CreateCategory from './pages/Category/CreateCategory';
+
+import ViewTag from './pages/Tag/ViewTag';
+import EditTag from './pages/Tag/EditTag';
+import CreateTag from './pages/Tag/CreateTag';
 import NotFound from './components/NotFound';
 
 function App() {
@@ -40,6 +45,11 @@ function App() {
           <Route path="/categories/:id" element={<ViewCategory />} />
           <Route path="/categories/edit/:id" element={<EditCategory />} />
           <Route path="/categories/create" element={<CreateCategory />} />
+
+          <Route path="tags" element={<TagList />} />
+          <Route path="/tags/:id" element={<ViewTag />} />
+          <Route path="/tags/edit/:id" element={<EditTag />} />
+          <Route path="/tags/create" element={<CreateTag />} />
 
           <Route path="*" element={<NotFound />} />
         </Route>
